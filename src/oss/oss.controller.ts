@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { OssService } from './oss.service';
+import { AuthInterceptor } from 'src/util/auth.interceptor';
 
 @Controller('oss')
 export class OssController {
@@ -16,6 +17,7 @@ export class OssController {
 
   @Post()
   @UseInterceptors(
+    AuthInterceptor,
     FileFieldsInterceptor([
       { name: 'video', maxCount: 5 },
       { name: 'thumb', maxCount: 5 },
