@@ -1,48 +1,48 @@
-import { Injectable } from '@nestjs/common';
-import * as multer from 'multer';
-import * as path from 'path';
-import * as fs from 'fs';
-import { MulterOptionsFactory } from '@nestjs/platform-express';
-import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { Injectable } from "@nestjs/common";
+import * as multer from "multer";
+import * as path from "path";
+import * as fs from "fs";
+import { MulterOptionsFactory } from "@nestjs/platform-express";
+import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
-  dirPath: string;
-  constructor() {
-    this.dirPath = path.join(process.cwd(), 'uploads');
-    this.mkdir();
-  }
-
-  mkdir() {
-    try {
-      fs.readdirSync(this.dirPath);
-    } catch {
-      fs.mkdirSync(this.dirPath);
+    dirPath: string;
+    constructor() {
+        this.dirPath = path.join(process.cwd(), "uploads");
+        this.mkdir();
     }
-  }
 
-  createMulterOptions(): MulterOptions | Promise<MulterOptions> {
-    const dest = this.dirPath;
+    mkdir() {
+        try {
+            fs.readdirSync(this.dirPath);
+        } catch {
+            fs.mkdirSync(this.dirPath);
+        }
+    }
 
-    const storage = multer.diskStorage({
-      destination(req, file, done) {
-        // console.log(req.body);
+    createMulterOptions(): MulterOptions | Promise<MulterOptions> {
+        const dest = this.dirPath;
 
-        done(null, dest);
-      },
-      filename(req, file, done) {
-        const ext = path.extname(file.originalname);
-        const name = path.basename(file.originalname, ext);
-        done(null, `${name}_${Date.now()}${ext}`);
-      },
-    });
+        const storage = multer.diskStorage({
+            destination(req, file, done) {
+                // console.log(req.body);
 
-    const limits = { fileSize: 1000 * 1024 * 1024 };
+                done(null, dest);
+            },
+            filename(req, file, done) {
+                const ext = path.extname(file.originalname);
+                const name = path.basename(file.originalname, ext);
+                done(null, `${name}${ext}`);
+            },
+        });
 
-    return {
-      dest,
-      storage,
-      limits,
-    };
-  }
+        const limits = { fileSize: 1000 * 1024 * 1024 };
+
+        return {
+            dest,
+            storage,
+            limits,
+        };
+    }
 }
