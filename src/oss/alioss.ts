@@ -90,31 +90,31 @@ export class AliOssService {
 
         // 한번에 올리는 비디오갯수가 1개 이상일경우
         // 해당 thumbnail의 가운데를 기준으로 잘라서 1개의 썸네일로 만들어준다.
-        if (videoLength > 1 && videoLength < 4) {
-          const arrThumb = [];
-          const arrVideo = returnData.video;
-          for await (const video of arrVideo) {
-            arrThumb.push(video.thumbInfo.thumbNail);
-          }
+        // if (videoLength > 1 && videoLength < 4) {
+        //   const arrThumb = [];
+        //   const arrVideo = returnData.video;
+        //   for await (const video of arrVideo) {
+        //     arrThumb.push(video.thumbInfo.thumbNail);
+        //   }
 
-          const imageWidth = parseInt(
-            this.configService.get('THUMBNAIL_IMAGE_SIZE_WIDTH'),
-          );
-          const imageHeight = parseInt(
-            this.configService.get('THUMBNAIL_IMAGE_SIZE_HEIGHT'),
-          );
-          const imgSize = {
-            width: imageWidth, //1280,
-            height: imageHeight, //720,
-          };
+        //   const imageWidth = parseInt(
+        //     this.configService.get('THUMBNAIL_IMAGE_SIZE_WIDTH'),
+        //   );
+        //   const imageHeight = parseInt(
+        //     this.configService.get('THUMBNAIL_IMAGE_SIZE_HEIGHT'),
+        //   );
+        //   const imgSize = {
+        //     width: imageWidth, //1280,
+        //     height: imageHeight, //720,
+        //   };
 
-          const mixThumb = await createMixThumb(
-            arrThumb,
-            imgSize,
-            returnData.video[0]?.thumbInfo?.duration,
-          );
-          returnData.video[0].thumbInfo.mixedThumbNail = mixThumb;
-        }
+        //   const mixThumb = await createMixThumb(
+        //     arrThumb,
+        //     imgSize,
+        //     returnData.video[0]?.thumbInfo?.duration,
+        //   );
+        //   returnData.video[0].thumbInfo.mixedThumbNail = mixThumb;
+        // }
       }
 
       if (thumb) {
