@@ -17,7 +17,7 @@ export class LocalService {
       throw new BadRequestException();
     }
 
-    const videoLength = files.video.length;
+    const videoLength = files?.video?.length;
     if (videoLength > 0) {
       const arrVideo = files.video;
       for await (const video of arrVideo) {
