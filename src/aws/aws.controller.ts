@@ -5,34 +5,61 @@ import {
   Param,
   UploadedFiles,
   UseInterceptors,
+  Headers,
 } from '@nestjs/common';
 import { AwsService } from './aws.service';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { AuthInterceptor } from 'src/util/auth.interceptor';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('aws')
 export class AwsController {
-  constructor(private readonly awsService: AwsService) {}
+  constructor(
+    private readonly awsService: AwsService,
+    private configService: ConfigService,
+  ) {}
+
+  // FileFieldsInterceptor([
+  //   { name: 'video', maxCount: 5 },
+  //   { name: 'thumb', maxCount: 5 },
+  //   { name: 'profile', maxCount: 2 },
+  //   { name: 'json', maxCount: 5 },
+  // ]),
 
   @Post()
   @UseInterceptors(
+    AuthInterceptor,
     FileFieldsInterceptor([
-      { name: 'video', maxCount: 1 },
-      { name: 'image', maxCount: 2 },
+      { name: 'video', maxCount: 5 },
+      { name: 'thumb', maxCount: 5 },
+      { name: 'profile', maxCount: 2 },
+      { name: 'json', maxCount: 5 },
     ]),
   )
-  async upload(@UploadedFiles() files: Express.MulterS3.File[]) {
-    const { video, image } = JSON.parse(JSON.stringify(files));
+  async upload(
+    @Headers() header?: object,
+    @UploadedFiles()
+    files?: {
+      video?: Express.MulterS3.File[];
+      thumb?: Express.MulterS3.File[];
+      profile?: Express.MulterS3.File[];
+      json?: Express.MulterS3.File[];
+    },
+  ) {
+    const { video, thumb, profile, json } = JSON.parse(JSON.stringify(files));
 
     const uploadFiles = {
       video,
-      image,
+      thumb,
+      profile,
+      json,
     };
 
     return this.awsService.fileUpload(uploadFiles);
   }
 
-  @Delete(':fileName')
-  async delete(@Param('fileName') fileName: string) {
-    return this.awsService.fileDelete(fileName);
-  }
+  // @Delete(':fileName')
+  // async delete(@Param('fileName') fileName: string) {
+  //   return this.awsService.fileDelete(fileName);
+  // }
 }

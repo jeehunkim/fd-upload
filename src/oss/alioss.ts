@@ -3,7 +3,6 @@ import * as OSS from 'ali-oss';
 // import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
 import { pickThumb } from 'src/util/pickThumb';
-import { createMixThumb } from 'src/util/imageWork';
 
 @Injectable()
 export class AliOssService {
