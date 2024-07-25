@@ -68,6 +68,7 @@ export class AliOssService {
           const arrVideo = returnData.video;
           for await (const video of arrVideo) {
             const { name } = video;
+
             // const destination = `/tmp/ossfs`;
             const destination = this.configService.get('OSS_BASE_PATH');
             const splitName = name.split('/');

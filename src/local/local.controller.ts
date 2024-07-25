@@ -28,10 +28,12 @@ export class LocalController {
     @UploadedFiles() files: Express.MulterS3.File[],
     @Body() body: any,
   ) {
-    const { video, image } = JSON.parse(JSON.stringify(files));
+    const { video, thumb, profile, json } = JSON.parse(JSON.stringify(files));
     const uploadFiles = {
       video,
-      image,
+      thumb,
+      profile,
+      json,
       ...body,
     };
 

@@ -46,16 +46,16 @@ export class AwsController {
       json?: Express.MulterS3.File[];
     },
   ) {
-    const { video, thumb, profile, json } = JSON.parse(JSON.stringify(files));
+    // const { video, thumb, profile, json } = JSON.parse(JSON.stringify(files));
 
-    const uploadFiles = {
-      video,
-      thumb,
-      profile,
-      json,
-    };
+    // const uploadFiles = {
+    //   video,
+    //   thumb,
+    //   profile,
+    //   json,
+    // };
 
-    return this.awsService.fileUpload(uploadFiles);
+    return this.awsService.fileUpload(files);
   }
 
   // @Delete(':fileName')
