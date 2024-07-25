@@ -21,10 +21,23 @@ export class LocalService {
     if (videoLength > 0) {
       const arrVideo = files.video;
       for await (const video of arrVideo) {
-        const { filename, destination, path } = video;
-        const pickName = filename.split('.')[0];
+        const { filename } = video;
+
+        const destination = this.configService.get('AWS_S3_BASE_PATH');
+        const splitName = filename.split('/');
+        const fileName = splitName[splitName.length - 1];
+        const pickName = fileName.split('.')[0];
         const thumbName = `${pickName}${this.configService.get('THUMBNAIL_IMAGE_EXTENTION')}`;
-        const makeThumb = await pickThumb(path, destination, thumbName);
+        const fileFullpath = `${destination}/${filename}`;
+        const subPath = filename.replace(`/${fileName}`, '');
+        const saveThumPath = destination + '/' + subPath;
+
+        const makeThumb = await pickThumb(
+          fileFullpath,
+          saveThumPath,
+          thumbName,
+        );
+        video.thumbInfo = makeThumb;
         video.thumbInfo = makeThumb;
       }
     }
