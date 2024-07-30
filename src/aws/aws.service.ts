@@ -14,7 +14,7 @@ export class AwsService {
     const { video } = files;
     if (video.length > 0) {
       for await (const vdo of video) {
-        const destination = this.configService.get('OSS_BASE_PATH');
+        const destination = this.configService.get('AWS_S3_BASE_PATH');
         const splitName = vdo.key.split('/');
         const fileName = splitName[splitName.length - 1];
         const pickName = fileName.split('.')[0];
