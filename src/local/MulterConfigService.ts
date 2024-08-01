@@ -9,8 +9,8 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
 export class MulterConfigService implements MulterOptionsFactory {
   dirPath: string;
   constructor() {
-    this.dirPath = path.join(process.cwd(), 'uploads');
-    // this.dirPath = '/mnt/s3/kr-4dist';
+    // this.dirPath = path.join(process.cwd(), 'uploads');
+    this.dirPath = '/mnt/4Dist';
     this.mkdir();
   }
 
